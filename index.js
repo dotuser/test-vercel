@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const visitorRoutes = require('./routes/visitors');
-require('dotenv').config();
+const Visitor = require("./models/Visitor");
 
 const app = express();
 app.use(express.json());
@@ -14,10 +15,17 @@ mongoose
     .catch((err) => console.error("MongoDB connection error:", err));
 
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", async (req, res) => {
+    try {
+        const visitors = await Visitor.find().select('-__v');
+        res.send(visitors);
+    } catch (error) {
+        res.send({ message: error.message });
+    }
+});
 app.get("/home", (req, res) => res.send("Home"));
 
-app.use("/api/visitors", visitorRoutes);
+// app.use("/api/visitors", visitorRoutes);
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
