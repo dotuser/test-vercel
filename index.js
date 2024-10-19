@@ -4,6 +4,7 @@ const visitorRoutes = require('./routes/visitors');
 require('dotenv').config();
 
 const app = express();
+app.use(express.json());
 
 mongoose
     .connect(process.env.MONGO_URI, {
