@@ -15,7 +15,7 @@ mongoose
     .catch((err) => console.error("MongoDB connection error:", err));
 
 
-app.get("/", async (req, res) => {
+app.get("/api/visitors", async (req, res) => {
     try {
         const visitors = await Visitor.find().select('-__v');
         res.send(visitors);
@@ -23,9 +23,18 @@ app.get("/", async (req, res) => {
         res.send({ message: error.message });
     }
 });
-app.get("/home", (req, res) => res.send("Home"));
 
-// app.use("/api/visitors", visitorRoutes);
+app.post('/api/visitors', async (req, res) => {
+    try {
+        const visitor = new Visitor({
+            ...req.body,
+        });
+        const savedVisitor = await visitor.save();
+        res.status(201).send(savedVisitor);
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+});
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
