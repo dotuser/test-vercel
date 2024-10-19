@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
-const visitorRoutes = require('./routes/visitors');
+const cors = require('cors');
 const Visitor = require("./models/Visitor");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 mongoose
@@ -14,13 +15,21 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.error("MongoDB connection error:", err));
 
+app.get("/", async (req, res) => {
+    try {
+        const visitors = await Visitor.find().select('-__v');
+        res.status(200).send(visitors);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
 
 app.get("/api/visitors", async (req, res) => {
     try {
         const visitors = await Visitor.find().select('-__v');
-        res.send(visitors);
+        res.status(200).send(visitors);
     } catch (error) {
-        res.send({ message: error.message });
+        res.status(500).send({ message: error.message });
     }
 });
 
