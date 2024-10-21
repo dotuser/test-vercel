@@ -22,7 +22,7 @@ const visitorSchema = new mongoose.Schema({
     questionsForUs: { type: String, trim: true }
 });
 
-// module.exports = mongoose.model('Visitor', visitorSchema);
+module.exports = mongoose.model('Visitor', visitorSchema);
 
 // const mongoose = require('mongoose');
 
