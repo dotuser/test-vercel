@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const visitorRoutes = require("./routes/visitors");
-// const Visitor = require("./models/Visitor");
+const userRoutes = require("./routes/users");
 
 const app = express();
 app.use(cors());
@@ -18,7 +18,9 @@ mongoose
 
 app.get("/", async (req, res) => res.status(200).send("TPWITS | The Place Where IT Starts"));
 
+//  ROUTES
 app.use("/api/visitors", visitorRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
