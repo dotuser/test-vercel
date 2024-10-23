@@ -1,5 +1,5 @@
 const User = require('../models/Users');
-const { findUserByCnic } = require('../helper/UserHelper');
+const { doesCnicExist, doesEmailExist, doesContactNoExist } = require('../helper/UserHelper');
 // const bcrypt = require('bcrypt');
 
 // Create User
@@ -7,23 +7,35 @@ const createUser = async (req, res) => {
   try {
     const userTypeId = req.params.userTypeId;
     const cnic = req.body.cnic;
-    // console.log(findUserByCnic(cnic));
-    // if (cnic) {
-        
-    // }
+    const email = req.body.email;
+    const mobileNo = req.body.mobileNo;
 
+    const cnicRegistered = await doesCnicExist(cnic);
+    const emailExists = await doesEmailExist(email);
+    const mobileNoExists = await doesContactNoExist(mobileNo);
 
-    // // const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    // const user = new User({
-    //   ...req.body,
-    // //   password: hashedPassword,
-    //   userTypeId: userTypeId,
-    //   isActive: true
-    // });
-    // await user.save();
-    res.status(201).json({ message: 'User created successfully' });
+    if (cnicRegistered) {
+      return res.status(400).json({ message: 'CNIC is already Registered'});
+    }
+
+    if (emailExists) {
+      return res.status(400).json({ message: 'Email is already Registered'});
+    }
+
+    if (mobileNoExists) {
+      return res.status(400).json({ message: 'Mobile Number is already Registered'});
+    }
+    
+    const user = new User({
+      ...req.body,
+      userTypeId: userTypeId,
+      isActive: true
+    });
+
+    await user.save();
+    return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -43,7 +55,7 @@ const getUserById = async (req, res) => {
   try {
     const userTypeId = req.params.userTypeId;
     const userId = req.params.id;
-    const user = await User.findOne({ _id: userId, isActive: true, userTypeId: userTypeId });
+    const user = await User.findOne({ _id: userId, isActive: true });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
