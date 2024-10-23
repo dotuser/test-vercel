@@ -23,7 +23,6 @@ const userSchema = new mongoose.Schema({
   mobileNo: {
     type: String,
     match: [/^\d{11}$/, 'Invalid mobile number'],
-    unique: true,
     trim: true
   }, // All
   addresses: {
@@ -38,8 +37,8 @@ const userSchema = new mongoose.Schema({
     bloodGroup: { type: String, default: null, trim: true }
   }, // All
   emergencyContact: {
-    number: { 
-      type: String, 
+    number: {
+      type: String,
       match: [/^\d{11}$/, 'Invalid mobile number'],
       trim: true
     },
@@ -69,8 +68,8 @@ const userSchema = new mongoose.Schema({
       name: { type: String, trim: true },
       designation: { type: String, trim: true },
       relation: { type: String, trim: true },
-      contact: { 
-        type: String, 
+      contact: {
+        type: String,
         match: [/^\d{11}$/, 'Invalid mobile number'],
         trim: true
       }

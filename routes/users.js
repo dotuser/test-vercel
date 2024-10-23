@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const { verifyToken, authenticate } = require('../config/jwt');
 const { createUser,
   getAllUsers,
   getUserById,
@@ -7,10 +7,12 @@ const { createUser,
   deleteUser
 } = require('../repositories/userRepo');
 
-router.post('/:userTypeId/', createUser);
-router.get('/:userTypeId/', getAllUsers);
-router.get('/:userTypeId/:id', getUserById);
-router.patch('/:userTypeId/:id', updateUser);
-router.delete('/:userTypeId/:id', deleteUser);
+const router = express.Router();
+
+router.post('/:userTypeId/', authenticate, createUser);
+router.get('/:userTypeId/', verifyToken, getAllUsers);
+router.get('/:id', verifyToken, getUserById);
+router.put('/:id', verifyToken, updateUser);
+router.delete('/:id', verifyToken, deleteUser);
 
 module.exports = router;

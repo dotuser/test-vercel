@@ -1,6 +1,5 @@
 const User = require('../models/Users');
-const { doesCnicExist, doesEmailExist, doesContactNoExist } = require('../helper/UserHelper');
-// const bcrypt = require('bcrypt');
+const { doesCnicExist, doesEmailExist, doesContactNoExist, isValidCnic, isValidMobileNo, isValidEmail } = require('../helper/UserHelper');
 
 // Create User
 const createUser = async (req, res) => {
@@ -68,10 +67,46 @@ const getUserById = async (req, res) => {
 // Update User
 const updateUser = async (req, res) => {
   try {
-    const userTypeId = req.params.userTypeId;
+    // const userTypeId = req.params.userTypeId;
     const userId = req.params.id;
+    const cnic = req.body.cnic;
+    const email = req.body.email;
+    const mobileNo = req.body.mobileNo;
+
+    const validateCnic = isValidCnic(cnic);
+    const validateEmail = isValidEmail(email);
+    const validateMobileNo = isValidMobileNo(mobileNo);
+
+    if (cnic && !validateCnic) {
+      return res.status(400).json({ message: 'Invalid CNIC' });
+    }
+
+    if (email && !validateEmail) {
+      return res.status(400).json({ message: 'Invalid CNIC' });
+    }
+
+    if (mobileNo && !validateMobileNo) {
+      return res.status(400).json({ message: 'Invalid CNIC' });
+    }
+
+    const cnicRegistered = cnic && await doesCnicExist(cnic);
+    const emailExists = email && await doesEmailExist(email);
+    const mobileNoExists = mobileNo && await doesContactNoExist(mobileNo);
+
+    if (cnic && cnicRegistered) {
+      return res.status(400).json({ message: 'CNIC is already Registered'});
+    }
+
+    if (email && emailExists) {
+      return res.status(400).json({ message: 'Email is already Registered'});
+    }
+
+    if (mobileNo && mobileNoExists) {
+      return res.status(400).json({ message: 'Mobile Number is already Registered'});
+    }
+    
     const user = await User.findOneAndUpdate(
-      { _id: userId, isActive: true, userTypeId: userTypeId },
+      { _id: userId, isActive: true },
       { $set: { ...req.body } },
       { new: true }
     );
