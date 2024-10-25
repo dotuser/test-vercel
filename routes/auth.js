@@ -1,11 +1,11 @@
 const express = require('express');
-const { verifyToken } = require('../config/jwt');
+const { verifyToken, authenticate } = require('../config/jwt');
 const { login, logout, setUpdatePassword } = require('../repositories/authRepo');
 
 const router = express.Router();
 
 router.post('/login', login);
 router.get('/logout', verifyToken, logout);
-router.post('/api/setPassword', verifyToken, setUpdatePassword);
+router.post('/api/:userTypeId/setPassword', authenticate, setUpdatePassword);
 
 module.exports = router;

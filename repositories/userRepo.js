@@ -41,6 +41,8 @@ const createUser = async (req, res) => {
 // Get All Users
 const getAllUsers = async (req, res) => {
   try {
+    console.log('I am a USER');
+    
     const userTypeId = req.params.userTypeId;
     const users = await User.find({ isActive: true, userTypeId: userTypeId });
     res.status(200).json(users);
@@ -52,7 +54,6 @@ const getAllUsers = async (req, res) => {
 // Get User by ID
 const getUserById = async (req, res) => {
   try {
-    const userTypeId = req.params.userTypeId;
     const userId = req.params.id;
     const user = await User.findOne({ _id: userId, isActive: true });
     if (!user) {
@@ -122,10 +123,9 @@ const updateUser = async (req, res) => {
 // Delete (Deactivate) User
 const deleteUser = async (req, res) => {
   try {
-    const userTypeId = req.params.userTypeId;
     const userId = req.params.id;
     const user = await User.findOneAndUpdate(
-      { _id: userId, isActive: true, userTypeId: userTypeId },
+      { _id: userId, isActive: true },
       { $set: { isActive: false } },
       { new: true }
     );
