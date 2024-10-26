@@ -1,6 +1,5 @@
 const User = require('../models/Users');
 const Employee = require('../models/Employee');
-const { doesCnicExist, doesEmailExist, doesContactNoExist, isValidCnic, isValidMobileNo, isValidEmail } = require('../helper/UserHelper');
 
 // Create Employee
 const createEmployee = async (req, res) => {

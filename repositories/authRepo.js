@@ -8,19 +8,11 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select('+password');
     
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (user.userTypeId == '3') {
-      return res.status(403).json({ message: 'Forbidden' });
-    }
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.userTypeId == '3') return res.status(403).json({ message: 'Forbidden' });
 
     const isValidPassword = await bcrypt.compare(password, user.password);
-
-    if (!isValidPassword) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
+    if (!isValidPassword) return res.status(401).json({ message: 'Invalid Credentials' });
 
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
