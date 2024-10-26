@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   professionalDetails: {
     linkedIn: { type: String, trim: true },
     gitHub: { type: String, trim: true },
-    cv: { type: String, trim: true },
+    cv: { type: String, trim: true, default: null },
     expYears: { type: Number },
     prevJobs: [{
       organization: { type: String, trim: true },
