@@ -102,8 +102,6 @@ const updateEmployee = async (req, res) => {
   try {
     const admin = await User.findById(adminId);
     if (!admin) return res.status(404).json({ message: 'Admin not found' });
-    console.log(admin.userTypeId);
-    
     if (admin.userTypeId != 1) return res.status(403).json({ message: 'Forbidden' });
 
     const employee = await Employee.findOne({ employeeId: employeeId, status: true });
@@ -169,22 +167,5 @@ const deleteEmployee = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
-// const deleteEmployee = async (req, res) => {
-//   try {
-//     const userId = req.params.id;
-//     const user = await User.findOneAndUpdate(
-//       { _id: userId, isActive: true },
-//       { $set: { isActive: false } },
-//       { new: true }
-//     );
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-//     res.status(200).json({ message: 'User deactivated successfully' });
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
 
 module.exports = { createEmployee, getAllEmployees, getEmployee, updateEmployee, deleteEmployee };

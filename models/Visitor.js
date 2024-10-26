@@ -34,22 +34,3 @@ visitorSchema.pre('save', function (next) {
 
 const Visitor = mongoose.model('Visitor', visitorSchema);
 module.exports = Visitor;
-
-// fullName
-// fatherName
-// email
-// mobileNo
-// dob
-// linkedIn
-// gitHub
-// cv
-// expYears
-// prevJobs
-// expSalary
-// expJoining
-// onSite
-// position
-// skills
-// portfolio
-// refs
-// questions
