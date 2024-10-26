@@ -1,9 +1,6 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-// const visitorRoutes = require("./routes/visitors");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const actionRoutes = require("./routes/actions");
@@ -23,13 +20,11 @@ app.use('/uploads', express.static('uploads'));
 //  DB Connection
 connectDB();
 
-
 //  DEFAULT REQ
 app.get("/", async (req, res) => res.status(200).send("TPWITS | The Place Where IT Starts"));
 
 //  ROUTES
 app.use("/", authRoutes);
-// app.use("/api/visitors", visitorRoutes);
 app.use("/api", userRoutes);
 app.use("/api", actionRoutes);
 app.use("/api/employee", verifyToken, employeeMngRoutes);
