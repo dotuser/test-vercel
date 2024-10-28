@@ -4,8 +4,8 @@ const { proVisitorToEmployee, proEmployeeToAdmin, demAdminToEmployee } = require
 
 const router = express.Router();
 
-router.get('/promoteVisitor/:adminId/:visitorId', verifyToken, proVisitorToEmployee);
-router.get('/promoteEmployee/:adminId/:employeeId', verifyToken, proEmployeeToAdmin);
-router.get('/demoteAdmin/:defAdminId/:adminId', verifyToken, demAdminToEmployee);
+router.get('/promoteVisitor/:adminId/:visitorId', proVisitorToEmployee);
+router.get('/promoteEmployee/:adminId/:employeeId', proEmployeeToAdmin);
+router.get('/demoteAdmin/:defAdminId/:adminId', demAdminToEmployee);
 
 module.exports = router;
