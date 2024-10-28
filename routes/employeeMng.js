@@ -5,7 +5,7 @@ const { createEmployee, getAllEmployees, getEmployee, updateEmployee, deleteEmpl
 const router = express.Router();
 
 router.post('/AddEmployee', createEmployee, );
-router.get('/GetAllEmployees', getAllEmployees, );
+router.get('/GetAllEmployees/:adminId', getAllEmployees, );
 router.get('/GetEmployee/:id', getEmployee, );
 router.put('/UpdateEmployee', updateEmployee, );
 router.delete('/DeleteEmployee', deleteEmployee, );
