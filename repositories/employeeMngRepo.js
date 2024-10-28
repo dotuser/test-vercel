@@ -46,7 +46,11 @@ const createEmployee = async (req, res) => {
 
 // Get All Employees
 const getAllEmployees = async (req, res) => {
+  const adminId = req.params.adminId;
   try {
+    const admin = await User.findOne({ _id: adminId, userTypeId: 1, isActive: true });
+    if (!admin) return res.status(403).json({ message: 'Forbidden' });
+
     const employees = await Employee.find({ status: true });
     const response = await Promise.all(employees.map(async emp => {
       const user = await User.findOne({ _id: emp.employeeId });
