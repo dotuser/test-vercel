@@ -1,5 +1,4 @@
 const express = require('express');
-const { verifyToken } = require('../config/jwt');
 const { proVisitorToEmployee, proEmployeeToAdmin, demAdminToEmployee } = require('../repositories/actions');
 
 const router = express.Router();
