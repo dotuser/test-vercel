@@ -26,7 +26,7 @@ app.get("/", async (req, res) => res.status(200).send("TPWITS | The Place Where 
 //  ROUTES
 app.use("/", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api", actionRoutes);
+app.use("/api", verifyToken, actionRoutes);
 app.use("/api/employee", verifyToken, employeeMngRoutes);
 
 app.listen(PORT, IP, () => console.log(`Server listening on http://${IP}:${PORT}`));
