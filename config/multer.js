@@ -1,13 +1,13 @@
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
+// const fs = require("fs");
 
 const uploadDir = 'uploads';
-try {
-  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-} catch (error) {
-  console.error("Error creating uploads directory:", error);
-}
+// try {
+//   if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+// } catch (error) {
+//   console.error("Error creating uploads directory:", error);
+// }
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf') cb(null, true);
